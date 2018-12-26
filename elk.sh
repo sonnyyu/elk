@@ -27,13 +27,14 @@ sudo dpkg -i elasticsearch-6.5.4.deb
 sed -i -e 's/#network.host: 192.168.0.1/network.host: localhost/g' /etc/elasticsearch/elasticsearch.yml
 sed -i -e 's/#MAX_LOCKED_MEMORY=unlimited/MAX_LOCKED_MEMORY=unlimited/g' /etc/default/elasticsearch
 
+sudo systemctl daemon-reload
 sudo systemctl enable elasticsearch
 sudo systemctl start elasticsearch
 sudo systemctl status elasticsearch
 
 #curl -X GET "localhost:9200"
 
-wget https://artifacts.elastic.co/downloads/kibana/kibana-6.5.4-amd64.deb
+sudo wget https://artifacts.elastic.co/downloads/kibana/kibana-6.5.4-amd64.deb
 sudo dpkg -i kibana-6.5.4-amd64.deb
 
 sed -i -e 's/#server.host: "localhost"/server.host: "0.0.0.0"/g' /etc/kibana/kibana.yml
@@ -44,8 +45,8 @@ sudo systemctl start kibana.service
 #sudo systemctl status kibana.service
 #http://10.145.89.96:5601/
 #http://10.145.89.96:5601/status
-wget https://artifacts.elastic.co/downloads/logstash/logstash-6.5.4.deb
-dpkg -i logstash-6.5.4.deb
+sudo wget https://artifacts.elastic.co/downloads/logstash/logstash-6.5.4.deb
+sudo dpkg -i logstash-6.5.4.deb
 
 cat << EOF > /etc/logstash/conf.d/02-beats-input.conf
 input {
@@ -104,8 +105,8 @@ output {
 }
 EOF
 
-sudo -u logstash /usr/share/logstash/bin/logstash --path.settings /etc/logstash -t
-
+#sudo -u logstash /usr/share/logstash/bin/logstash --path.settings /etc/logstash -t
+sudo systemctl daemon-reload
 sudo systemctl enable logstash
 sudo systemctl start logstash
 sudo systemctl status logstash
@@ -127,6 +128,7 @@ sudo filebeat modules list
 sudo filebeat setup --template -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["localhost:9200"]'
 sudo filebeat setup -e -E output.logstash.enabled=false -E output.elasticsearch.hosts=['localhost:9200'] -E setup.kibana.host=localhost:5601
 
+sudo systemctl daemon-reload
 sudo systemctl enable filebeat
 sudo systemctl start filebeat
 sudo systemctl status filebeat
