@@ -6,7 +6,6 @@ set -x
 exec > >(sudo tee install.log)
 exec 2>&1
 
-apt-get purge oracle-java8-installer -y
 
 sudo apt-get update -y && sudo apt-get upgrade  -y
 sudo add-apt-repository ppa:webupd8team/java  -y
