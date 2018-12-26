@@ -20,6 +20,7 @@ sudo apt-get install oracle-java8-installer -y
 
 echo 'JAVA_HOME="/usr/lib/jvm/java-8-oracle"' >>/etc/environment
 source /etc/environment
+export JAVA_HOME="/usr/lib/jvm/java-8-oracle"
 
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.5.4.deb
 sudo dpkg -i elasticsearch-6.5.4.deb
