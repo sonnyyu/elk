@@ -18,6 +18,8 @@ Test Filebeat:
 
 curl -XGET 'http://localhost:9200/filebeat-*/_search?pretty'
 
+Setup Sample Data:
+
 http://10.145.89.96:5601/app/kibana#/home/tutorial_directory?_g=()
 
 
